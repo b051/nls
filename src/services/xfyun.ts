@@ -1,11 +1,10 @@
-import { tone2num } from '@wohui/pinyin'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'events'
 import { WriteStream } from 'fs'
 import { Readable } from 'stream'
 import * as request from 'superagent'
-import { URL } from 'url'
 import * as WebSocket from 'ws'
+import { URL } from 'url'
 import { Env, Gender, Language, XfYunApp } from '../env'
 
 
@@ -177,12 +176,12 @@ export namespace XFYun {
       }
     }
 
-    const SERVICE = new Service(new URL('wss://iat-api.xfyun.cn/v2/iat'), 'iat')
+    let SERVICE: Service
 
     // IATSocket
     export class Socket extends SocketWrap<OutgoingMessage> {
       constructor(private readonly options: Options) {
-        super(SERVICE)
+        super(new Service(new URL('wss://iat-api.xfyun.cn/v2/iat'), 'iat'))
       }
 
       translateMessage(parsed: IncomingMessage): OutgoingMessage {
@@ -240,11 +239,14 @@ export namespace XFYun {
   }
 
   export namespace TTS {
-    const SERVICE = new XFYun.Service(new URL('wss://tts-api.xfyun.cn/v2/tts'), 'tts')
+    let SERVICE: Service
 
     type TTSOptions = { vcn?: string, gender: Gender, speed: number, ext: 'wav'|'mp3', volume: number };
 
     export const xfyun_tts = async (text: string, stream: WriteStream, options: TTSOptions) => {
+      if (!SERVICE) {
+        SERVICE = new Service(new URL('wss://tts-api.xfyun.cn/v2/tts'), 'tts')
+      }
       return await new Promise<void>((resolve, reject) => {
         const socket = SERVICE.createSocket()
         socket.onopen = function() {
@@ -291,8 +293,6 @@ export namespace XFYun {
   }
 
   export namespace OTS {
-    const SERVICE = new XFYun.Service(new URL('https://ntrans.xfyun.cn/v2/ots'), 'ots')
-
     interface OTPOptions {
       from: Language
       to: Language
@@ -300,7 +300,7 @@ export namespace XFYun {
 
     export const translate = async (text: string, options: OTPOptions) => {
       const _text = Buffer.from(text).toString('base64')
-      const res = await SERVICE.createHttp({
+      const res = await new Service(new URL('https://ntrans.xfyun.cn/v2/ots'), 'ots').createHttp({
         business: {
           from: options.from,
           to: options.to

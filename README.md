@@ -37,3 +37,8 @@ Azure.init(env.azure)
 
 ```
 
+### Run Demo
+
+```shell
+npm run demo
+```

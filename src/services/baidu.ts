@@ -174,7 +174,7 @@ export namespace Baidu {
      *    B：…
      */
     export const identify_speaker = async (text: string) => {
-      const replaced: { [key: number]: string } = {}
+      const replaced = new Map<number, string>()
       if (!ignoredTexts.test(text)) {
         let m: RegExpExecArray
         while ((m = dialogLine.exec(text)) !== null) {
@@ -184,7 +184,7 @@ export namespace Baidu {
             // const items = await baidu_lexer(segment)
             // const tags = items.map(c => c.pos.toLowerCase()).join('')
             if (speakerTags.includes(tags)) {
-              replaced[dialogLine.lastIndex - m[0].length + m[0].indexOf(segment)] = segment
+              replaced.set(dialogLine.lastIndex - m[0].length + m[0].indexOf(segment), segment)
             }
           }
         }

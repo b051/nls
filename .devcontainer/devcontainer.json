@@ -1,0 +1,16 @@
+{
+	"name": "nls-demo",
+
+	"dockerComposeFile": [
+		"docker-compose.yml"
+	],
+	"service": "nls-demo",
+	"runServices": ["nls-demo"],
+	"workspaceFolder": "/runtime",
+
+	/** 
+		for iat_test, make sure pulseaudio is running on your local
+		`pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon`
+	*/
+
+}

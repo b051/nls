@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  nls-demo:
+    image: b051/nls-demo
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
+    command: tail -f /dev/null
+    environment:
+      PULSE_SERVER: docker.for.mac.host.internal
+      ENV_YML: /root/env.yml
+    working_dir: /runtime
+    volumes:
+      - type: bind
+        source: ${HOME}/.config/pulse
+        target: /root/.config/pulse
+      - ../src:/runtime/src
+      - ../demo:/runtime/demo
+      - ../.gitignore:/runtime/.gitignore
+      - ../npm-shrinkwrap.json:/runtime/npm-shrinkwrap.json
+      - ../tsconfig.json:/runtime/tsconfig.json
+      - ../README.md:/runtime/README.md
+      - ${HOME}/env.yml:/root/env.yml

@@ -197,9 +197,12 @@ export namespace Azure {
       return generated
     }
 
-    const SERVICE = new Service('tts.speech.microsoft.com/cognitiveservices/v1', 'tts')
+    let SERVICE: Service
 
     export const tts = async (...lines: DialogLine[]): Promise<Buffer> => {
+      if (!SERVICE) {
+        SERVICE = new Service('tts.speech.microsoft.com/cognitiveservices/v1', 'tts')
+      }
       const wav = await SERVICE.ssml()
       .set('X-Microsoft-OutputFormat', 'audio-24khz-48kbitrate-mono-mp3')
       .send(`

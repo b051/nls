@@ -4,5 +4,7 @@ dist/
 # OSX
 .DS_Store
 
-# *.js.map
 .graphqlconfig.yml
+*.js.map
+*.js
+/.envrc
