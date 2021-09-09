@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017", "es7", "es6", "dom"],
+    "declaration": true,
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "allowJs": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": false,
+    "esModuleInterop": true
+  }
+}

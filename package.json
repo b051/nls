@@ -1,0 +1,23 @@
+{
+  "name": "nls",
+  "version": "1.0.0",
+  "description": "Scaffold of several NLS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shengning@gmail.com",
+  "license": "IMITSC",
+  "peerDependencies": {
+    "@types/node": "^16.9.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@types/ws": "^7.4.7",
+    "@wohui/pinyin": "^1.6.0",
+    "p-ratelimit": "^1.0.1",
+    "superagent": "^6.1.0",
+    "ws": "^8.2.2",
+    "xmldom": "^0.6.0"
+  }
+}
