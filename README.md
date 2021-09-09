@@ -17,7 +17,6 @@ I would consolidate secret keys into an environment yaml file like
         api_key: ----
         api_secret: ----
       tts: *xfyun_iat
-      ise: *xfyun_iat
       ots: *xfyun_iat
     azure: &azure
       tts:
@@ -42,3 +41,26 @@ Azure.init(env.azure)
 ```shell
 npm run demo
 ```
+
+### Remote Container
+
+This project works with [Remote Container](https://code.visualstudio.com/docs/remote/containers). To enable audio from your Mac to container, please start pulseaudio daemon.
+
+If you have trouble with built-in service (I think you have to edit the plist each time)
+
+```shell
+brew services start pulseaudio
+```
+
+Please start your pulseaudio by
+
+```shell
+pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+```
+
+and kill it by 
+
+```shell
+pulseaudio --kill 
+```
+

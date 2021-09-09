@@ -21,4 +21,5 @@ services:
       - ../npm-shrinkwrap.json:/runtime/npm-shrinkwrap.json
       - ../tsconfig.json:/runtime/tsconfig.json
       - ../README.md:/runtime/README.md
+      - ../.devcontainer:/runtime/.devcontainer
       - ${HOME}/env.yml:/root/env.yml
