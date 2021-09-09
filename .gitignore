@@ -1,0 +1,8 @@
+node_modules/
+dist/
+
+# OSX
+.DS_Store
+
+# *.js.map
+.graphqlconfig.yml
