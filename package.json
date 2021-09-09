@@ -1,14 +1,15 @@
 {
-  "name": "nls",
+  "name": "@b051/nls",
   "version": "1.0.0",
   "description": "Scaffold of several NLS",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
   "author": "shengning@gmail.com",
-  "license": "IMITSC",
+  "license": "MIT",
   "peerDependencies": {
     "@types/node": "^16.9.0",
     "typescript": "^4.3.5"

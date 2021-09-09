@@ -89,9 +89,11 @@ export namespace Baidu {
   }
 
   export namespace TTS {
+    const SERVICE_1 = new Service(new URL('https://tsn.baidu.com/text2audio'), 10)
+    const SERVICE_4 = new Service(new URL('https://tsn.baidu.com/text2audio'), 3)
 
     const _tts = async (text: string, per: number, speed: number, format: 'wav' | 'mp3') => {
-      const tts_service = new Service(new URL('https://tsn.baidu.com/text2audio'), (per > 4 ? 3 : 10))
+      const tts_service = per > 4 ? SERVICE_4 : SERVICE_1
       return await tts_service.send({
         tex: text.substr(0, 2048),
         ctp: 1,

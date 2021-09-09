@@ -197,16 +197,16 @@ export namespace Azure {
       return generated
     }
 
-    // const TTS_SERVICE = new Service('tts.speech.microsoft.com/cognitiveservices/v1', 'tts')
+    const SERVICE = new Service('tts.speech.microsoft.com/cognitiveservices/v1', 'tts')
 
-    // export const tts = async (...lines: DialogLine[]): Promise<Buffer> => {
-    //   const wav = await TTS_SERVICE.ssml()
-    //   .set('X-Microsoft-OutputFormat', 'audio-24khz-48kbitrate-mono-mp3')
-    //   .send(`
-    //     <speak version='1.0' xml:lang='en-US'>
-    //       ${lines.map(line => line.voiceXml()).join('\n')}
-    //     </speak>`)
-    //   return wav.body
-    // }
+    export const tts = async (...lines: DialogLine[]): Promise<Buffer> => {
+      const wav = await SERVICE.ssml()
+      .set('X-Microsoft-OutputFormat', 'audio-24khz-48kbitrate-mono-mp3')
+      .send(`
+        <speak version='1.0' xml:lang='en-US'>
+          ${lines.map(line => line.voiceXml()).join('\n')}
+        </speak>`)
+      return wav.body
+    }
   }
 }
