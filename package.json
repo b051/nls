@@ -1,6 +1,6 @@
 {
   "name": "@b051/nls",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Scaffold of several NLS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
