@@ -176,8 +176,6 @@ export namespace XFYun {
       }
     }
 
-    let SERVICE: Service
-
     // IATSocket
     export class Socket extends SocketWrap<OutgoingMessage> {
       constructor(private readonly options: Options) {
@@ -239,14 +237,11 @@ export namespace XFYun {
   }
 
   export namespace TTS {
-    let SERVICE: Service
 
     type TTSOptions = { vcn?: string, gender: Gender, speed: number, ext: 'wav'|'mp3', volume: number };
 
-    export const xfyun_tts = async (text: string, stream: WriteStream, options: TTSOptions) => {
-      if (!SERVICE) {
-        SERVICE = new Service(new URL('wss://tts-api.xfyun.cn/v2/tts'), 'tts')
-      }
+    export const tts = async (text: string, stream: WriteStream, options: TTSOptions) => {
+      const SERVICE = new Service(new URL('wss://tts-api.xfyun.cn/v2/tts'), 'tts')
       return await new Promise<void>((resolve, reject) => {
         const socket = SERVICE.createSocket()
         socket.onopen = function() {

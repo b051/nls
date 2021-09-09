@@ -12,22 +12,13 @@ export namespace Baidu {
     env = _env
   }
 
-  export class Service {
-    private qps: <T>(fn: () => Promise<T>) => Promise<T>
-    private _token: string
-    private _token_expire: number
-
-    constructor(readonly url: URL, rate: number) {
-      this.qps = pRateLimit({
-        interval: 1000,
-        rate: rate,
-        concurrency: rate
-      })
-    }
+  class Request {
+    private token: string
+    private expires_in: number
 
     private async get_access_token() {
-      if (this._token && this._token_expire > Date.now()) {
-        return this._token
+      if (this.token && this.expires_in > Date.now()) {
+        return this.token
       }
       const res = await request.get('https://openapi.baidu.com/oauth/2.0/token').query({
         grant_type: 'client_credentials',
@@ -35,18 +26,18 @@ export namespace Baidu {
         client_secret: env.secret
       })
       const { access_token, expires_in } = res.body
-      this._token = access_token
-      this._token_expire = expires_in - 60
-      return this._token
+      this.token = access_token
+      this.expires_in = expires_in - 60
+      return this.token
     }
 
-    async send(body: object, type: 'form'|'json' = 'json') {
+    async send(service: Service, body: object, type: 'form'|'json' = 'json') {
       const access_token = await this.get_access_token()
-      return await this.qps(async () => {
-        const req = request.post(this.url.href)
-        if ('aip.baidubce.com' === this.url.host) {
+      return await service.qps(async () => {
+        const req = request.post(service.url.href)
+        if ('aip.baidubce.com' === service.url.host) {
           req.query({ access_token, charset: 'UTF-8' })
-        } else if (this.url.host.includes('baidu.com')) {
+        } else if (service.url.host.includes('baidu.com')) {
           if (type === 'form') {
             Object.assign(body, {
               cuid: env.app_id,
@@ -64,7 +55,26 @@ export namespace Baidu {
     }
   }
 
+  const req = new Request()
+
+  export class Service {
+    private qps: <T>(fn: () => Promise<T>) => Promise<T>
+
+    constructor(readonly url: URL,  rate: number) {
+      this.qps = pRateLimit({
+        interval: 1000,
+        rate: rate,
+        concurrency: rate
+      })
+    }
+
+    send(body: object, type: 'form'|'json' = 'json') {
+      return req.send(this, body, type)
+    }
+  }
+
   export namespace IAT {
+
     const SERVICE = new Service(new URL('http://vop.baidu.com/server_api'), 5)
 
     const _iat = async (buffer: Buffer, method: 'json' | 'raw') => {
@@ -89,11 +99,12 @@ export namespace Baidu {
   }
 
   export namespace TTS {
-    const SERVICE_1 = new Service(new URL('https://tsn.baidu.com/text2audio'), 10)
-    const SERVICE_4 = new Service(new URL('https://tsn.baidu.com/text2audio'), 3)
+
+    const SERVICE_3 = new Service(new URL('https://tsn.baidu.com/text2audio'), 3)
+    const SERVICE_10 = new Service(new URL('https://tsn.baidu.com/text2audio'), 10)
 
     const _tts = async (text: string, per: number, speed: number, format: 'wav' | 'mp3') => {
-      const tts_service = per > 4 ? SERVICE_4 : SERVICE_1
+      const tts_service = per > 4 ? SERVICE_3 : SERVICE_10
       return await tts_service.send({
         tex: text.substr(0, 2048),
         ctp: 1,
@@ -198,6 +209,7 @@ export namespace Baidu {
     export type Lexer = { item: string, pos: string }
 
     const SERVICE = new Service(new URL('https://aip.baidubce.com/rpc/2.0/nlp/v1/lexer'), 2)
+
     const _lexer = async (text: string): Promise<Lexer[]> => {
       if (text.trim() === '') {
         return []
@@ -240,7 +252,7 @@ export namespace Baidu {
 
   export namespace OPENQA {
 
-    const SERVICE = new Baidu.Service(new URL('https://aip.baidubce.com/rpc/2.0/kg/v2/openqa'), 2)
+    const SERVICE = new Service(new URL('https://aip.baidubce.com/rpc/2.0/kg/v2/openqa'), 2)
 
     export const openqa = async (text: string) => {
       console.log('baidu:openqa', { text })
