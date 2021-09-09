@@ -4,7 +4,8 @@
   "description": "Scaffold of several NLS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "author": "shengning@gmail.com",
   "license": "IMITSC",
@@ -12,12 +13,22 @@
     "@types/node": "^16.9.0",
     "typescript": "^4.3.5"
   },
+  "devDependencies": {
+    "ioredis": "^4.27.9",
+    "fakeredis": "^2.0.0"
+  },
   "dependencies": {
-    "@types/ws": "^7.4.7",
     "@wohui/pinyin": "^1.6.0",
     "p-ratelimit": "^1.0.1",
     "superagent": "^6.1.0",
-    "ws": "^8.2.2",
-    "xmldom": "^0.6.0"
-  }
+    "ws": "^8.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/b051/nls.git"
+  },
+  "bugs": {
+    "url": "https://github.com/b051/nls/issues"
+  },
+  "homepage": "https://github.com/b051/nls#readme"
 }

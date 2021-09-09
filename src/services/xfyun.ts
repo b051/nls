@@ -6,8 +6,8 @@ import { Readable } from 'stream'
 import * as request from 'superagent'
 import { URL } from 'url'
 import * as WebSocket from 'ws'
-import { DOMParser } from 'xmldom'
 import { Env, Gender, Language, XfYunApp } from '../env'
+
 
 const BUFFER_SIZE = 1280
 
