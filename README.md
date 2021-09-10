@@ -24,25 +24,21 @@ I would consolidate secret keys into an environment yaml file like
         subscription_key: ----
 ```
 
-and load the configuration with 
+### Use it in your project
 
 ```javascript
 
-import { Azure } from '@b051/nls'
+import { Azure, XFYun, Baidu } from '@b051/nls'
 
 const env: Env = yaml.load(...)
 
 Azure.init(env.azure)
+XFYun.init(env.xfyun)
+Baidu.init(env.baidu)
 
 ```
 
-### Run Demo
-
-```shell
-npm run demo
-```
-
-### Remote Container
+### Docker Support
 
 This project works with [Remote Container](https://code.visualstudio.com/docs/remote/containers). To enable audio from your Mac to container, please start pulseaudio daemon.
 
@@ -64,3 +60,10 @@ and kill it by
 pulseaudio --kill 
 ```
 
+#### Try it out
+
+Put `env.yml` like above in your home directory, start `pulseaudio` daemon, then
+
+```sh
+docker run -it -e PULSE_SERVER=docker.for.mac.localhost -e ENV_YML=/root/env.yml -v ~/.config/pulse:/root/.config/pulse -v ~/env.yml:/root/env.yml --rm b051/nls-demo:latest npm run demo
+```
