@@ -5,10 +5,10 @@ import * as fs from 'fs'
 import * as yaml from 'js-yaml'
 
 const actions = {
-  "NLP Demo": async () => {
+  "Speech": async () => {
     return {
-      iat_test: () => import('./iat_test').then(m => m.iat_test),
-      tts_test: () => import('./tts_test').then(m => m.tts_test)
+      'speech to text': () => import('./iat_test').then(m => m.iat_test),
+      'text to speech': () => import('./tts_test').then(m => m.tts_test)
     }
   }
 }

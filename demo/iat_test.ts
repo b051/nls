@@ -1,8 +1,9 @@
 import * as chalk from 'chalk'
-import * as inquirer from 'inquirer'
-import { XFYun } from '../src'
-import { buildMic } from './nls_mic'
 import * as fs from 'fs'
+import * as inquirer from 'inquirer'
+import * as mic from 'mic'
+import { Transform } from 'stream'
+import { XFYun } from '../src'
 
 const BUFFER_SIZE = 1280
 
@@ -91,7 +92,21 @@ export const iat_test = async () => {
       }
       await promise
     } else {
-      const { micInstance, micStream } = buildMic(vad_eos)
+      const micInstance = mic({
+        rate: '16000',
+        channels: '1',
+        exitOnSilence: vad_eos / 1000
+      })
+      const micStream: Transform = micInstance.getAudioStream()
+      micStream.on('silence', () => {
+        console.log(chalk.magenta('[silence detected]'))
+        micInstance.stop()
+      })
+
+      micStream.on('startComplete', () => {
+        console.log(chalk.magenta('[speak to your mic]'))
+      })
+
       micStream.on('readable', () => {
         let bytes: Buffer
         while ((bytes = micStream.read(BUFFER_SIZE))) {

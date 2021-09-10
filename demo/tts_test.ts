@@ -1,7 +1,7 @@
+import * as child_process from 'child_process'
 import * as fs from 'fs'
 import * as inquirer from 'inquirer'
 import { Baidu, Gender, XFYun } from '../src'
-import { exec } from './cmd'
 
 type Service = {
   extension: string
@@ -81,6 +81,16 @@ const select_text = async () => {
   }])
   return text
 }
+
+const exec = (cmd: string) => new Promise<{ stdout: string, stderr: string }>((resolve, reject) => {
+  child_process.exec(cmd, { maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
+    if (error) {
+      reject(error)
+    } else {
+      resolve({ stdout, stderr })
+    }
+  })
+})
 
 const generate_speech = async (text: string) => {
   while (true) {
