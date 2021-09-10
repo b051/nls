@@ -38,29 +38,30 @@ Baidu.init(env.baidu)
 
 ```
 
-### Docker Support
+#### Play with the demo
 
-This project works with [Remote Container](https://code.visualstudio.com/docs/remote/containers). To enable audio from your Mac to container, please start pulseaudio daemon.
-
-If you have trouble with built-in service (I think you have to edit the plist each time)
-
-```shell
-brew services start pulseaudio
+```sh
+npm run demo
 ```
 
-Please start your pulseaudio by
+### Remote Container Tip
 
-```shell
-pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
-```
+If you develop in [Remote Container](https://code.visualstudio.com/docs/remote/containers), and want to communicate within container, or play the demo, you will need `pulseaudio` to enable audio tunnel from your Mac to container
 
-and kill it by 
+1. install `pulseaudio` from homebrew
+2. start your `pulseaudio` by
 
-```shell
-pulseaudio --kill 
-```
+  ```shell
+  pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+  ```
 
-#### Try it out
+3. try it out within Remote Container
+
+  ```sh
+  npm run demo
+  ```
+
+### Try it out
 
 Put `env.yml` like above in your home directory, start `pulseaudio` daemon, then
 
