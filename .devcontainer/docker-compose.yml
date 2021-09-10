@@ -16,9 +16,11 @@ services:
         source: ${HOME}/.config/pulse
         target: /root/.config/pulse
       - ../src:/runtime/src
+      - ../.git:/runtime/.git
       - ../demo:/runtime/demo
       - ../.gitignore:/runtime/.gitignore
-      - ../npm-shrinkwrap.json:/runtime/npm-shrinkwrap.json
+      - ../package.json:/runtime/package.json
+      - ../.npmrc:/runtime/.npmrc
       - ../tsconfig.json:/runtime/tsconfig.json
       - ../README.md:/runtime/README.md
       - ../.devcontainer:/runtime/.devcontainer

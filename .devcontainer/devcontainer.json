@@ -8,6 +8,19 @@
 	"runServices": ["nls-demo"],
 	"workspaceFolder": "/runtime",
 
+	"settings": { 
+		"terminal.integrated.profiles.linux": {
+			"zsh": {
+				"path": "zsh"
+			}
+		}
+	},
+
+	"extensions": [
+		"eamodio.gitlens",
+		"donjayamanne.githistory"
+	]
+
 	/** 
 		for iat_test, make sure pulseaudio is running on your local
 		`pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon`

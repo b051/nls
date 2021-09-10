@@ -58,7 +58,7 @@ export namespace Baidu {
   const req = new Request()
 
   export class Service {
-    private qps: <T>(fn: () => Promise<T>) => Promise<T>
+    readonly qps: <T>(fn: () => Promise<T>) => Promise<T>
 
     constructor(readonly url: URL,  rate: number) {
       this.qps = pRateLimit({

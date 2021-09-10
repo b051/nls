@@ -33,7 +33,7 @@ const services: { [key: string]: Service } = {
       console.log(`generating and saving to ${path}`)
       const label = `xunfei (vcn=${vcn} speed=${speed})`
       console.time(label)
-      await XFYun.TTS.xfyun_tts(t, stream, { vcn, gender: Gender.female, speed, ext: 'mp3', volume: 100 })
+      await XFYun.TTS.tts(t, stream, { vcn, gender: Gender.female, speed, ext: 'mp3', volume: 100 })
       console.timeEnd(label)
 
       return path

@@ -1,5 +1,7 @@
 {
   "include": ["src"],
+  "exclude": ["demo", "node_modules"],
+  "incremental": true,
   "compilerOptions": {
     "lib": [
       "es2018", "dom"
